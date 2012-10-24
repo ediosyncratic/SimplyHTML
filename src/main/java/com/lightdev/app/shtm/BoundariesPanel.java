@@ -29,34 +29,42 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.html.CSS;
 
 /**
- * Panel to show and manipulate boundaries of a rectangular object
- * such as a table cell.
+ * Panel to show and manipulate boundaries of a rectangular object such as a table cell.
  *
  * @author Ulrich Hilger
  * @author Light Development
  * @author <a href="http://www.lightdev.com">http://www.lightdev.com</a>
  * @author <a href="mailto:info@lightdev.com">info@lightdev.com</a>
- * @author published under the terms and conditions of the
- *      GNU General Public License,
- *      for details see file gpl.txt in the distribution
- *      package of this software
+ * @author published under the terms and conditions of the GNU General Public License, for details see file gpl.txt in the distribution package of this software
  *
- * 
+ *
  */
 class BoundariesPanel extends JPanel implements AttributeComponent {
-    /** the components used for single attributes */
+
+    /**
+     * the components used for single attributes
+     */
     private final Vector components = new Vector();
-    /** the attributes represented by this compoent */
+    /**
+     * the attributes represented by this compoent
+     */
     private CombinedAttribute ca;
-    /** the value to compare to determine changes */
+    /**
+     * the value to compare to determine changes
+     */
     private String originalValue;
-    /** indicates if a call to setValue is for initial setting or for changes */
+    /**
+     * indicates if a call to setValue is for initial setting or for changes
+     */
     private int setValueCalls = 0;
-    /** the attribute key this component represents */
+    /**
+     * the attribute key this component represents
+     */
     private final Object key;
 
     /**
-     * construct a <code>BoundariesPanel</code>.
+     * construct a
+     * <code>BoundariesPanel</code>.
      */
     public BoundariesPanel(final Object attrKey) {
         super();
@@ -67,13 +75,13 @@ class BoundariesPanel extends JPanel implements AttributeComponent {
         // constraints to use on our GridBagLayout
         final GridBagConstraints c = new GridBagConstraints();
         Util.addGridBagComponent(this, new JLabel(Util.getResourceString("topLabel")), g, c, 0, 0,
-            GridBagConstraints.EAST);
+                GridBagConstraints.EAST);
         Util.addGridBagComponent(this, new JLabel(Util.getResourceString("rightLabel")), g, c, 2, 0,
-            GridBagConstraints.EAST);
+                GridBagConstraints.EAST);
         Util.addGridBagComponent(this, new JLabel(Util.getResourceString("bottomLabel")), g, c, 0, 1,
-            GridBagConstraints.EAST);
+                GridBagConstraints.EAST);
         Util.addGridBagComponent(this, new JLabel(Util.getResourceString("leftLabel")), g, c, 2, 1,
-            GridBagConstraints.EAST);
+                GridBagConstraints.EAST);
         addSizeSelector(g, c, attrKey, 1, 0); // top
         addSizeSelector(g, c, attrKey, 3, 0); // right
         addSizeSelector(g, c, attrKey, 1, 1); // bottom
@@ -81,20 +89,19 @@ class BoundariesPanel extends JPanel implements AttributeComponent {
     }
 
     private void addSizeSelector(final GridBagLayout g, final GridBagConstraints c, final Object attr, final int x,
-                                 final int y) {
+            final int y) {
         final SizeSelectorPanel ssp = new SizeSelectorPanel(attr, null, false, SizeSelectorPanel.TYPE_LABEL);
         Util.addGridBagComponent(this, ssp, g, c, x, y, GridBagConstraints.WEST);
         components.addElement(ssp);
     }
 
     /**
-     * set the value of this <code>AttributeComponent</code>
+     * set the value of this
+     * <code>AttributeComponent</code>
      *
-     * @param a  the set of attributes possibly having an
-     *          attribute this component can display
+     * @param a the set of attributes possibly having an attribute this component can display
      *
-     * @return true, if the set of attributes had a matching attribute,
-     *            false if not
+     * @return true, if the set of attributes had a matching attribute, false if not
      */
     public boolean setValue(final AttributeSet a) {
         final boolean success = true;
@@ -111,7 +118,8 @@ class BoundariesPanel extends JPanel implements AttributeComponent {
     }
 
     /**
-     * get the value of this <code>AttributeComponent</code>
+     * get the value of this
+     * <code>AttributeComponent</code>
      *
      * @return the value selected from this component
      */
@@ -144,8 +152,7 @@ class BoundariesPanel extends JPanel implements AttributeComponent {
             set.addAttribute(key, newValue);
             Util.styleSheet().addCSSAttribute(set, (CSS.Attribute) key, newValue);
             return set;
-        }
-        else {
+        } else {
             return getValue();
         }
     }

@@ -25,43 +25,38 @@ import javax.swing.UIManager;
 /**
  * Main class of application SimplyHTML.
  *
- * <p>This class contains method main and opens the application's main
- * frame.</p>
+ * <p>This class contains method main and opens the application's main frame.</p>
  *
  * @author Ulrich Hilger
  * @author Light Development
  * @author <a href="http://www.lightdev.com">http://www.lightdev.com</a>
  * @author <a href="mailto:info@lightdev.com">info@lightdev.com</a>
- * @author published under the terms and conditions of the
- *      GNU General Public License,
- *      for details see file gpl.txt in the distribution
- *      package of this software
+ * @author published under the terms and conditions of the GNU General Public License, for details see file gpl.txt in the distribution package of this software
  *
- * 
+ *
  */
 public class App {
-    //Main method
+
     public static void main(final String[] args) {
         try {
             final Preferences prefs = Preferences
-                .userNodeForPackage(Class.forName("com.lightdev.app.shtm.PrefsDialog"));
+                    .userNodeForPackage(Class.forName("com.lightdev.app.shtm.PrefsDialog"));
             UIManager.setLookAndFeel(prefs.get(PrefsDialog.PREFSID_LOOK_AND_FEEL,
-                UIManager.getCrossPlatformLookAndFeelClassName()));
+                    UIManager.getCrossPlatformLookAndFeelClassName()));
             /*
-            The following line causes UIManager to correctly handle alignments
-            of menu items when they do not have an icon.
+             The following line causes UIManager to correctly handle alignments
+             of menu items when they do not have an icon.
 
-            At the Java Developer Connection, SKelvin writes:
-            "If the UI class does not find an icon it can't calculate its width :-)
-            It won't work if you just set the property to null (don't ask me
-            why), but setting to any type other than icon works."
+             At the Java Developer Connection, SKelvin writes:
+             "If the UI class does not find an icon it can't calculate its width :-)
+             It won't work if you just set the property to null (don't ask me
+             why), but setting to any type other than icon works."
 
-            (see http://forum.java.sun.com/thread.jsp?forum=57&thread=126150)
-            */
+             (see http://forum.java.sun.com/thread.jsp?forum=57&thread=126150)
+             */
             //UIManager.put("Menu.checkIcon", new ImageIcon("") );
             UIManager.put("Menu.checkIcon", UIManager.get("MenuItem.checkIcon"));
-        }
-        catch (final Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
         FrmMain.run(); // create an instance of the app's main window

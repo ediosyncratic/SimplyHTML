@@ -31,47 +31,39 @@ import javax.swing.JMenuItem;
 /**
  * Base class for plug-ins of application SimplyHTML.
  *
- * <p>Defines some common methods for reuse in plug-ins. All
- * settings such as dockLocation or activation state
- * of a plug-in are stored persistently in a preferences file
- * with the help of class <code>Prefs</code>. The preferences
- * file is valid for the current user, so each user has own
- * plug-in settings.</p>
+ * <p>Defines some common methods for reuse in plug-ins. All settings such as dockLocation or activation state of a plug-in are stored persistently in a
+ * preferences file with the help of class
+ * <code>Prefs</code>. The preferences file is valid for the current user, so each user has own plug-in settings.</p>
  *
  * <p>Menus are constructed with the help of class
- * <code>DynamicResource</code>. This class needs menu definitions
- * accessible in a .properties file as described in the API docs
- * of <code>DynamicResource</code>. I.e., methods of class
- * <code>AbstractPlugin</code> only work as defined herein when
- * accompanied by such .properties file accordingly.</p>
+ * <code>DynamicResource</code>. This class needs menu definitions accessible in a .properties file as described in the API docs of
+ * <code>DynamicResource</code>. I.e., methods of class
+ * <code>AbstractPlugin</code> only work as defined herein when accompanied by such .properties file accordingly.</p>
  *
  * @author Ulrich Hilger
  * @author Light Development
  * @author <a href="http://www.lightdev.com">http://www.lightdev.com</a>
  * @author <a href="mailto:info@lightdev.com">info@lightdev.com</a>
- * @author published under the terms and conditions of the
- *      GNU General Public License,
- *      for details see file gpl.txt in the distribution
- *      package of this software
+ * @author published under the terms and conditions of the GNU General Public License, for details see file gpl.txt in the distribution package of this software
  *
- * 
+ *
  *
  * @see com.lightdev.app.shtm.DynamicResource
  */
 public abstract class AbstractPlugin implements SHTMLPlugin {
+
     /**
      * construct an AbstractPlugin
      *
-     * <p>Constructor may not have parameters so that
-     * java.lang.Class.newInstance can be used on it.</p>
+     * <p>Constructor may not have parameters so that java.lang.Class.newInstance can be used on it.</p>
      */
     public AbstractPlugin() {
         //System.out.println("AbstractPlugin constructor");
         /*SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-          security.
-        }
-        */
+         if (security != null) {
+         security.
+         }
+         */
         prefs = Preferences.userNodeForPackage(getClass());
     }
 
@@ -107,8 +99,7 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
     }
 
     /**
-     * create a frame for the component of this plug-in, if it
-     * has a JComponent to display.
+     * create a frame for the component of this plug-in, if it has a JComponent to display.
      */
     protected void createFrame() {
         if (c != null) {
@@ -121,13 +112,10 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
     }
 
     /**
-     * create, show or hide frame as needed, depending
-     * on a given dock location
+     * create, show or hide frame as needed, depending on a given dock location
      *
-     * @param location  the dock location of the plug-in, one of
-     * DOCK_LOCATION_TOP, DOCK_LOCATION_BOTTOM,
-     * DOCK_LOCATION.LEFT, DOCK_LOCATION_RIGHT or DOCK_LOCATION_NONE, if the
-     * component shall not dock.
+     * @param location the dock location of the plug-in, one of DOCK_LOCATION_TOP, DOCK_LOCATION_BOTTOM, DOCK_LOCATION.LEFT, DOCK_LOCATION_RIGHT or
+     * DOCK_LOCATION_NONE, if the component shall not dock.
      */
     protected void createFrameAsNeeded(final int location) {
         if (location == SHTMLPlugin.DOCK_LOCATION_NONE) {
@@ -137,8 +125,7 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
             if (frame != null) {
                 frame.setVisible(true);
             }
-        }
-        else {
+        } else {
             if (frame != null) {
                 frame.setVisible(false);
             }
@@ -149,15 +136,13 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
     /**
      * initialize the plugin
      *
-     * @param owner  the owner of this plug-in
-     * @param internalName  the internal name this plug-in shall have
-     * @param pluginMenuId  the id of the plug-in menu in the TextResources,
-     * or null if no plugin-in menu is to be created
-     * @param helpMenuId  the id of the help menu for this plug-in in the
-     * TextResources, or null if no help menu is to be created
+     * @param owner the owner of this plug-in
+     * @param internalName the internal name this plug-in shall have
+     * @param pluginMenuId the id of the plug-in menu in the TextResources, or null if no plugin-in menu is to be created
+     * @param helpMenuId the id of the help menu for this plug-in in the TextResources, or null if no help menu is to be created
      */
     public void initPlugin(final SHTMLPanel owner, final String internalName, final String pluginMenuId,
-                           final String helpMenuId) {
+            final String helpMenuId) {
         this.owner = (SHTMLPanelImpl) owner;
         this.internalName = internalName;
         this.pluginMenuId = pluginMenuId;
@@ -168,28 +153,25 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
                 final ClassLoader plLoader = SHTMLPanelImpl.pluginManager.getPluginLoader();
                 if (plLoader != null) {
                     final ResourceBundle resourceBundle = ResourceBundle.getBundle(this.getClass().getName(),
-                        Locale.getDefault(), plLoader);
+                            Locale.getDefault(), plLoader);
                     textResources = new DefaultTextResources(resourceBundle);
                     //System.out.println("AbstractPlugin plLoader != null, resources=" + resources);
-                }
-                else {
+                } else {
                     final DefaultTextResources instance = new DefaultTextResources(ResourceBundle.getBundle(this
-                        .getClass().getName(), Locale.getDefault()));
+                            .getClass().getName(), Locale.getDefault()));
                     textResources = instance;
                     //System.out.println("AbstractPlugin plLoader == null, resources=" + resources);
                 }
-            }
-            else {
+            } else {
                 final DefaultTextResources instance = new DefaultTextResources(ResourceBundle.getBundle(this.getClass()
-                    .getName(), Locale.getDefault()));
+                        .getName(), Locale.getDefault()));
                 textResources = instance;
                 //System.out.println("AbstractPlugin pluginManager = null, resources=" + resources);
             }
             active = prefs.getBoolean(internalName + PREFSID_PLUGIN_ACTIVE, true);
             dockLocation = prefs.getInt(internalName + PREFSID_PLUGIN_DOCK_LOCATION, SHTMLPlugin.DOCK_LOCATION_LEFT);
             createFrameAsNeeded(dockLocation);
-        }
-        catch (final MissingResourceException mre) {
+        } catch (final MissingResourceException mre) {
             Util.errMsg(null, this.getClass().getName() + ".properties not found", mre);
         }
     }
@@ -197,7 +179,7 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
     /**
      * set the owner of this plug-in
      *
-     * @param owner  the main frame of the instance of SimplyHTML creating the plug-in
+     * @param owner the main frame of the instance of SimplyHTML creating the plug-in
      */
     public void setOwner(final SHTMLPanelImpl owner) {
         this.owner = owner;
@@ -213,29 +195,24 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
     }
 
     /**
-     * set status of plug-in and persistently store setting in
-     * a preferences file
+     * set status of plug-in and persistently store setting in a preferences file
      *
-     * @param isActive  indicates whether or not the plug-in shall be activated
+     * @param isActive indicates whether or not the plug-in shall be activated
      */
     public void setStatus(final boolean isActive) {
         active = isActive;
         prefs.putBoolean(getInternalName() + PREFSID_PLUGIN_ACTIVE, isActive);
         try {
             prefs.flush();
-        }
-        catch (final Exception e) {
+        } catch (final Exception e) {
             Util.errMsg(null, e.getMessage(), e);
         }
     }
 
     /**
-     * set the location the component returned by getDockComponent()
-     * shall be docked at. Persistently store setting in
-     * a preferences file.
+     * set the location the component returned by getDockComponent() shall be docked at. Persistently store setting in a preferences file.
      *
-     * @param location the dock location, one of DOCK_LOCATION_TOP, DOCK_LOCATION_BOTTOM,
-     * DOCK_LOCATION.LEFT, DOCK_LOCATION_RIGHT or DOCK_LOCATION_NONE, if the
+     * @param location the dock location, one of DOCK_LOCATION_TOP, DOCK_LOCATION_BOTTOM, DOCK_LOCATION.LEFT, DOCK_LOCATION_RIGHT or DOCK_LOCATION_NONE, if the
      * component shall not dock.
      */
     public void setDockLocation(final int location) {
@@ -243,8 +220,7 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
         prefs.putInt(getInternalName() + PREFSID_PLUGIN_DOCK_LOCATION, location);
         try {
             prefs.flush();
-        }
-        catch (final Exception e) {
+        } catch (final Exception e) {
             Util.errMsg(null, e.getMessage(), e);
         }
         createFrameAsNeeded(location);
@@ -253,9 +229,8 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
     /**
      * get a menu of actions this plug-in provides.
      *
-     * <p><code>JMenu</code> is a decendant of <code>JMenuItem</code>
-     * so this method may return a single menu item up to a whole
-     * structure of submenus in its return value.</p>
+     * <p><code>JMenu</code> is a decendant of
+     * <code>JMenuItem</code> so this method may return a single menu item up to a whole structure of submenus in its return value.</p>
      *
      * @return the plug-in menu
      */
@@ -264,12 +239,10 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
     }
 
     /**
-     * get a menu item providing documentation about this
-     * plug-in.
+     * get a menu item providing documentation about this plug-in.
      *
-     * <p><code>JMenu</code> is a decendant of <code>JMenuItem</code>
-     * so this method may return a single menu item up to a whole
-     * structure of submenus in its return value.</p>
+     * <p><code>JMenu</code> is a decendant of
+     * <code>JMenuItem</code> so this method may return a single menu item up to a whole structure of submenus in its return value.</p>
      *
      * @return a menu item with help for this plug-in
      */
@@ -278,8 +251,7 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
     }
 
     /**
-     * get the name of the plug-in as it shall appear
-     * on a GUI.
+     * get the name of the plug-in as it shall appear on a GUI.
      *
      * @return the name of the plug-in
      */
@@ -297,11 +269,9 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
     }
 
     /**
-     * get the location the component returned by getDockComponent()
-     * shall be docked at.
+     * get the location the component returned by getDockComponent() shall be docked at.
      *
-     * @return the dock location, one of DOCK_LOCATION_TOP, DOCK_LOCATION_BOTTOM,
-     * DOCK_LOCATION.LEFT, DOCK_LOCATION_RIGHT or DOCK_LOCATION_NONE, if the
+     * @return the dock location, one of DOCK_LOCATION_TOP, DOCK_LOCATION_BOTTOM, DOCK_LOCATION.LEFT, DOCK_LOCATION_RIGHT or DOCK_LOCATION_NONE, if the
      * component shall not dock.
      */
     public int getDockLocation() {
@@ -311,8 +281,7 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
     /**
      * get the component that this plug-in produces, if any
      *
-     * @return the component produced by this plug-in, or null if none
-     * is produced
+     * @return the component produced by this plug-in, or null if none is produced
      */
     public JComponent getComponent() {
         return c;
@@ -330,7 +299,7 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
     /**
      * get a string from the resource bundle of the owner of this plug-in
      *
-     * @param nm  the name of the string resource to get
+     * @param nm the name of the string resource to get
      *
      * @return the string with the given name or null, if none is found
      */
@@ -341,7 +310,7 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
     /**
      * get an action from the resource bundle of the owner of this plug-in
      *
-     * @param cmd  the name of the action to get
+     * @param cmd the name of the action to get
      *
      * @return the action with the given name or null, if none is found
      */
@@ -351,33 +320,61 @@ public abstract class AbstractPlugin implements SHTMLPlugin {
 
     /* ----------- SimplyHTML plugin interface implementation end --------- */
     /* --------------- class fields start --------------------- */
-    /** TextResources of plug-in */
+    /**
+     * TextResources of plug-in
+     */
     public static TextResources textResources;
-    /** constant for active setting in preferences file */
+    /**
+     * constant for active setting in preferences file
+     */
     public static final String PREFSID_PLUGIN_ACTIVE = "Active";
-    /** constant for dock location setting in preferences file */
+    /**
+     * constant for dock location setting in preferences file
+     */
     public static final String PREFSID_PLUGIN_DOCK_LOCATION = "DockLocation";
-    /** the internal name of this plug-in */
+    /**
+     * the internal name of this plug-in
+     */
     protected String internalName;
-    /** the id in the ResourceFile for the menu of this plug-in */
+    /**
+     * the id in the ResourceFile for the menu of this plug-in
+     */
     protected String pluginMenuId;
-    /** the id in the ResourceFile for the help menu of this plug-in */
+    /**
+     * the id in the ResourceFile for the help menu of this plug-in
+     */
     protected String helpMenuId;
-    /** the plug-in menu provided by this plug-in */
+    /**
+     * the plug-in menu provided by this plug-in
+     */
     protected JMenuItem pMenu = null;
-    /** the help menu provided by this plug-in */
+    /**
+     * the help menu provided by this plug-in
+     */
     protected JMenuItem hMenu = null;
-    /** status of plug-in */
+    /**
+     * status of plug-in
+     */
     protected boolean active = true;
-    /** current dock location */
+    /**
+     * current dock location
+     */
     protected int dockLocation = SHTMLPlugin.DOCK_LOCATION_LEFT;
-    /** component of this plug-in */
+    /**
+     * component of this plug-in
+     */
     protected JComponent c = null;
-    /** JFrame for dockLocation=none */
+    /**
+     * JFrame for dockLocation=none
+     */
     protected JFrame frame = null;
-    /** reference for user preferences for this class */
+    /**
+     * reference for user preferences for this class
+     */
     protected Preferences prefs;
-    /** the owner of this plug in */
+    /**
+     * the owner of this plug in
+     */
     protected SHTMLPanelImpl owner;
     /* ------------- class fields end ------------------ */
 }

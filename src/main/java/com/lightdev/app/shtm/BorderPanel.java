@@ -33,31 +33,38 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.html.CSS;
 
 /**
- * Panel to show and manipulate border settings for a rectangular
- * object such as a table cell
+ * Panel to show and manipulate border settings for a rectangular object such as a table cell
  *
  * @author Ulrich Hilger
  * @author Light Development
  * @author <a href="http://www.lightdev.com">http://www.lightdev.com</a>
  * @author <a href="mailto:info@lightdev.com">info@lightdev.com</a>
- * @author published under the terms and conditions of the
- *      GNU General Public License,
- *      for details see file gpl.txt in the distribution
- *      package of this software
+ * @author published under the terms and conditions of the GNU General Public License, for details see file gpl.txt in the distribution package of this software
  *
- * 
+ *
  */
 class BorderPanel extends JPanel implements AttributeComponent {
+
     private final Vector components = new Vector();
-    /** the attributes for border width */
+    /**
+     * the attributes for border width
+     */
     private CombinedAttribute bWidth;
-    /** the attributes for border color */
+    /**
+     * the attributes for border color
+     */
     private CombinedAttribute bColor;
-    /** the color value to compare to for determining changes */
+    /**
+     * the color value to compare to for determining changes
+     */
     private String oColor;
-    /** the width value to compare to for determining changes */
+    /**
+     * the width value to compare to for determining changes
+     */
     private String oWidth;
-    /** indicates if a call to setValue is for initial setting or for changes */
+    /**
+     * indicates if a call to setValue is for initial setting or for changes
+     */
     private int setValueCalls = 0;
 
     public BorderPanel() {
@@ -74,20 +81,19 @@ class BorderPanel extends JPanel implements AttributeComponent {
     }
 
     private void addSettings(final GridBagLayout g, final GridBagConstraints c, final String title, final int side,
-                             final int x, final int y) {
+            final int x, final int y) {
         final BorderSettings bs = new BorderSettings(title, side);
         Util.addGridBagComponent(this, bs, g, c, x, y, GridBagConstraints.WEST);
         components.addElement(bs);
     }
 
     /**
-     * set the value of this <code>AttributeComponent</code>
+     * set the value of this
+     * <code>AttributeComponent</code>
      *
-     * @param a  the set of attributes possibly having an
-     *          attribute this component can display
+     * @param a the set of attributes possibly having an attribute this component can display
      *
-     * @return true, if the set of attributes had a matching attribute,
-     *            false if not
+     * @return true, if the set of attributes had a matching attribute, false if not
      */
     public boolean setValue(final AttributeSet a) {
         final boolean success = true;
@@ -105,7 +111,8 @@ class BorderPanel extends JPanel implements AttributeComponent {
     }
 
     /**
-     * get the value of this <code>AttributeComponent</code>
+     * get the value of this
+     * <code>AttributeComponent</code>
      *
      * @return the value selected from this component
      */
@@ -142,8 +149,7 @@ class BorderPanel extends JPanel implements AttributeComponent {
             Util.styleSheet().addCSSAttribute(set, CSS.Attribute.BORDER_BOTTOM_WIDTH, newValue);
             Util.styleSheet().addCSSAttribute(set, CSS.Attribute.BORDER_LEFT_WIDTH, newValue);
             return set;
-        }
-        else {
+        } else {
             return getValue();
         }
     }
@@ -152,21 +158,27 @@ class BorderPanel extends JPanel implements AttributeComponent {
      * Panel to show and manipulate border settings
      */
     private class BorderSettings extends JPanel {
-        /** the border side */
+
+        /**
+         * the border side
+         */
         private final int side;
-        /** selector for border width */
+        /**
+         * selector for border width
+         */
         private final SizeSelectorPanel bWidth;
-        /** selector for border color */
+        /**
+         * selector for border color
+         */
         private final ColorPanel bColor;
 
         /**
-         * construct a <code>BorderSettings</code> panel
+         * construct a
+         * <code>BorderSettings</code> panel
          *
-         * @param title  the title of this object
-         * @param borderKey  the attribute key for the border width this
-         * object represents
-         * @param colorKey  the attribute key for the border color this
-         * object represents
+         * @param title the title of this object
+         * @param borderKey the attribute key for the border width this object represents
+         * @param colorKey the attribute key for the border color this object represents
          */
         public BorderSettings(final String title, final int side) {
             super();
@@ -180,12 +192,12 @@ class BorderPanel extends JPanel implements AttributeComponent {
             setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED), title));
             // add the width control and label
             Util.addGridBagComponent(this, new JLabel(Util.getResourceString("borderWidthLabel")), g, c, 0, 0,
-                GridBagConstraints.EAST);
+                    GridBagConstraints.EAST);
             bWidth = new SizeSelectorPanel(CSS.Attribute.BORDER_WIDTH, null, false, SizeSelectorPanel.TYPE_LABEL);
             Util.addGridBagComponent(this, bWidth, g, c, 1, 0, GridBagConstraints.WEST);
             // add the color control and label
             Util.addGridBagComponent(this, new JLabel(Util.getResourceString("borderColorLabel")), g, c, 0, 1,
-                GridBagConstraints.EAST);
+                    GridBagConstraints.EAST);
             bColor = new ColorPanel(null, Color.black, CSS.Attribute.BORDER_COLOR);
             Util.addGridBagComponent(this, bColor, g, c, 1, 1, GridBagConstraints.WEST);
         }
@@ -199,9 +211,10 @@ class BorderPanel extends JPanel implements AttributeComponent {
         }
 
         /**
-         * set the value of this <code>AttributeComponent</code>
+         * set the value of this
+         * <code>AttributeComponent</code>
          *
-         * @param color  the <code>CombinedAttribute</code> to take the color from
+         * @param color the <code>CombinedAttribute</code> to take the color from
          *
          */
         public void setValue(final CombinedAttribute borderWidths, final CombinedAttribute borderColors) {

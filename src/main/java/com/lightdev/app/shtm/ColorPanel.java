@@ -49,46 +49,58 @@ import javax.swing.text.html.HTML;
  * @author Light Development
  * @author <a href="http://www.lightdev.com">http://www.lightdev.com</a>
  * @author <a href="mailto:info@lightdev.com">info@lightdev.com</a>
- * @author published under the terms and conditions of the
- *      GNU General Public License,
- *      for details see file gpl.txt in the distribution
- *      package of this software
+ * @author published under the terms and conditions of the GNU General Public License, for details see file gpl.txt in the distribution package of this software
  *
- * 
+ *
  */
 class ColorPanel extends JPanel implements ActionListener, AttributeComponent {
-    /** the component showing the chosen color */
+
+    /**
+     * the component showing the chosen color
+     */
     JTextField colorDisplay = new JTextField();
-    /** default color */
+    /**
+     * default color
+     */
     private final Color defaultColor;
-    /** the attribute key, this component returns values for */
+    /**
+     * the attribute key, this component returns values for
+     */
     private final Object attributeKey;
-    /** value to compare for determining changes */
+    /**
+     * value to compare for determining changes
+     */
     private Color originalColor;
-    /** indicates if setValue is called initially */
+    /**
+     * indicates if setValue is called initially
+     */
     private int setValCount = 0;
     private final JColorChooser colorChooserPane = new JColorChooser();
 
     /**
-    * construct a color panel
-    *
-    * @param title  the title of the color panel
-    * @param col  the color to be displayed first
-    * @param titleFont  font for title
-    * @param key  the attribute key this component shall return color values for
-    */
+     * construct a color panel
+     *
+     * @param title the title of the color panel
+     * @param col the color to be displayed first
+     * @param titleFont font for title
+     * @param key the attribute key this component shall return color values for
+     */
     public ColorPanel(final String title, final Color col, final Object key) {
         super(new BorderLayout(5, 5));
         defaultColor = col;
         attributeKey = key;
-        /** adjust the color display */
+        /**
+         * adjust the color display
+         */
         colorDisplay.setBackground(col);
         Dimension dim = new Dimension(20, 15);
         colorDisplay.setMinimumSize(dim);
         colorDisplay.setMaximumSize(dim);
         colorDisplay.setPreferredSize(dim);
         colorDisplay.setEditable(false);
-        /** a button to open a color chooser window */
+        /**
+         * a button to open a color chooser window
+         */
         final JButton browseButton = new JButton();
         browseButton.setText("...");
         dim = new Dimension(20, 15);
@@ -96,18 +108,21 @@ class ColorPanel extends JPanel implements ActionListener, AttributeComponent {
         browseButton.setMaximumSize(dim);
         browseButton.setPreferredSize(dim);
         browseButton.addActionListener(this);
-        /** a helper panel for proper component placement */
+        /**
+         * a helper panel for proper component placement
+         */
         final JPanel eastPanel = new JPanel(new FlowLayout());
         eastPanel.add(colorDisplay);
         eastPanel.add(browseButton);
-        /** set the title */
+        /**
+         * set the title
+         */
         if ((title != null) && (title.length() > 0)) {
             final JLabel titleLabel = new JLabel(title);
             titleLabel.setFont(UIManager.getFont("TextField.font"));
             add(titleLabel, BorderLayout.WEST);
             add(eastPanel, BorderLayout.EAST);
-        }
-        else {
+        } else {
             add(eastPanel, BorderLayout.WEST);
         }
     }
@@ -136,10 +151,8 @@ class ColorPanel extends JPanel implements ActionListener, AttributeComponent {
     }
 
     /**
-     * open a color chooser when a 'Browse' button
-     * is clicked and change the associated color
-     * display accordingly, when another color
-     * is selected from the color chooser
+     * open a color chooser when a 'Browse' button is clicked and change the associated color display accordingly, when another color is selected from the color
+     * chooser
      */
     public void actionPerformed(final ActionEvent e) {
         final Color color = showColorChooserDialog();
@@ -152,6 +165,7 @@ class ColorPanel extends JPanel implements ActionListener, AttributeComponent {
     private Color showColorChooserDialog() {
         // the listener for OK button of the Color Choose Dialog:
         class ColorTracker implements ActionListener {
+
             JColorChooser chooser;
             Color color;
 
@@ -172,14 +186,13 @@ class ColorPanel extends JPanel implements ActionListener, AttributeComponent {
     }
 
     /**
-    * set the value of this <code>AttributeComponent</code>
-    *
-    * @param a  the set of attributes possibly having an
-    *          attribute this component can display
-    *
-    * @return true, if the set of attributes had a matching attribute,
-    *            false if not
-    */
+     * set the value of this
+     * <code>AttributeComponent</code>
+     *
+     * @param a the set of attributes possibly having an attribute this component can display
+     *
+     * @return true, if the set of attributes had a matching attribute, false if not
+     */
     public boolean setValue(final AttributeSet a) {
         Color newSelection = null;
         if (getAttributeKey() == CSS.Attribute.COLOR) {
@@ -202,14 +215,12 @@ class ColorPanel extends JPanel implements ActionListener, AttributeComponent {
         //System.out.println("ColorPanel setValue value=" + value);
         try {
             setColor(new Color(Integer.parseInt(value.toString().substring(1).toUpperCase(), 16)));
-        }
-        catch (final Exception e) {
+        } catch (final Exception e) {
             try {
                 //setColor(Util.styleSheet().getForeground(a));
                 //System.out.println("ColorPanel setValue value=" + value + "=" + Color.getColor(value));
                 setColor(Color.getColor(value));
-            }
-            catch (final Exception e2) {
+            } catch (final Exception e2) {
                 Util.errMsg(null, null, e2);
             }
         }
@@ -221,7 +232,8 @@ class ColorPanel extends JPanel implements ActionListener, AttributeComponent {
     }
 
     /**
-     * get the value of this <code>AttributeComponent</code>
+     * get the value of this
+     * <code>AttributeComponent</code>
      *
      * @return the value selected from this component
      */
@@ -233,8 +245,7 @@ class ColorPanel extends JPanel implements ActionListener, AttributeComponent {
             Util.styleSheet().addCSSAttribute(set, (CSS.Attribute) getAttributeKey(), color);
             if (getAttributeKey() == CSS.Attribute.COLOR) {
                 set.addAttribute(HTML.Attribute.COLOR, color);
-            }
-            else if (getAttributeKey() == CSS.Attribute.BACKGROUND_COLOR) {
+            } else if (getAttributeKey() == CSS.Attribute.BACKGROUND_COLOR) {
                 set.addAttribute(HTML.Attribute.BGCOLOR, color);
             }
         }
@@ -248,14 +259,12 @@ class ColorPanel extends JPanel implements ActionListener, AttributeComponent {
             final String color = "#" + Integer.toHexString(value.getRGB()).substring(2);
             try {
                 Util.styleSheet().addCSSAttribute(set, (CSS.Attribute) getAttributeKey(), color);
-            }
-            catch (final Exception e) {
+            } catch (final Exception e) {
                 set.addAttribute(getAttributeKey(), color);
             }
             //System.out.println("ColorPanel getValue color=" + color);
             return set;
-        }
-        else {
+        } else {
             return getValue();
         }
     }
@@ -270,13 +279,15 @@ class ColorPanel extends JPanel implements ActionListener, AttributeComponent {
     }
 
     /* -------------- event listener implementation start ----------- */
-    /** the listeners for ColorPanelEvents */
+    /**
+     * the listeners for ColorPanelEvents
+     */
     private final Vector listeners = new Vector(0);
 
     /**
      * add an event listener.
      *
-     * @param  listener  the event listener to add
+     * @param listener the event listener to add
      */
     public void addColorPanelListener(final ColorPanelListener listener) {
         listeners.addElement(listener);
@@ -285,13 +296,15 @@ class ColorPanel extends JPanel implements ActionListener, AttributeComponent {
     /**
      * remove an event listener.
      *
-     * @param  listener  the event listener to remove
+     * @param listener the event listener to remove
      */
     public void removeColorPanelListener(final ColorPanelListener listener) {
         listeners.removeElement(listener);
     }
 
-    /** fire a color changed event to all registered listeners */
+    /**
+     * fire a color changed event to all registered listeners
+     */
     void fireColorChanged() {
         final Enumeration listenerList = listeners.elements();
         while (listenerList.hasMoreElements()) {
@@ -299,15 +312,21 @@ class ColorPanel extends JPanel implements ActionListener, AttributeComponent {
         }
     }
 
-    /** the event object definition for ColorPanels */
+    /**
+     * the event object definition for ColorPanels
+     */
     class ColorPanelEvent extends EventObject {
+
         public ColorPanelEvent(final Object source) {
             super(source);
         }
     }
 
-    /** the event listener definition for ColorPanels */
+    /**
+     * the event listener definition for ColorPanels
+     */
     interface ColorPanelListener extends EventListener {
+
         public void colorChanged(ColorPanelEvent e);
     }
     /* -------------- event listener implementation end ----------- */

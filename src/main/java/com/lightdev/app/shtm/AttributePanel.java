@@ -36,15 +36,15 @@ import javax.swing.text.SimpleAttributeSet;
  * @author Light Development
  * @author <a href="http://www.lightdev.com">http://www.lightdev.com</a>
  * @author <a href="mailto:info@lightdev.com">info@lightdev.com</a>
- * @author published under the terms and conditions of the
- *      GNU General Public License,
- *      for details see file gpl.txt in the distribution
- *      package of this software
+ * @author published under the terms and conditions of the GNU General Public License, for details see file gpl.txt in the distribution package of this software
  *
- * 
+ *
  */
 abstract class AttributePanel extends JPanel implements AttributeComponent, ContainerListener {
-    /** container for all AttributeComponents shown on this AttributePanel */
+
+    /**
+     * container for all AttributeComponents shown on this AttributePanel
+     */
     private final Vector components = new Vector();
 
     /**
@@ -56,21 +56,15 @@ abstract class AttributePanel extends JPanel implements AttributeComponent, Cont
     }
 
     /**
-     * set the value of this <code>AttributeComponent</code>
+     * set the value of this
+     * <code>AttributeComponent</code>
      *
-     * @param a  the set of attributes possibly having an
-     *          attribute this component can display
+     * @param a the set of attributes possibly having an attribute this component can display
      *
-     * @return true, if the set of attributes had a matching attribute,
-     *            false if not
+     * @return true, if the set of attributes had a matching attribute, false if not
      */
     public boolean setValue(final AttributeSet a) {
-        /*
-        System.out.println("AttributePanel setValue");
-        de.calcom.cclib.html.HTMLDiag hd = new de.calcom.cclib.html.HTMLDiag();
-        hd.listAttributes(a, 4);
-        System.out.println("\r\n");
-        */
+
         boolean result = true;
         final Enumeration elements = components.elements();
         AttributeComponent ac;
@@ -84,7 +78,8 @@ abstract class AttributePanel extends JPanel implements AttributeComponent, Cont
     }
 
     /**
-     * get the value of this <code>AttributeComponent</code>
+     * get the value of this
+     * <code>AttributeComponent</code>
      *
      * @return the value selected from this component
      */
@@ -109,8 +104,7 @@ abstract class AttributePanel extends JPanel implements AttributeComponent, Cont
                 attributes.addAttributes(ac.getValue(includeUnchanged));
             }
             return attributes;
-        }
-        else {
+        } else {
             return getValue();
         }
     }

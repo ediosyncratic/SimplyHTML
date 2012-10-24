@@ -58,39 +58,50 @@ import javax.swing.text.html.HTML;
  * @author Light Development
  * @author <a href="http://www.lightdev.com">http://www.lightdev.com</a>
  * @author <a href="mailto:info@lightdev.com">info@lightdev.com</a>
- * @author published under the terms and conditions of the
- *      GNU General Public License,
- *      for details see file gpl.txt in the distribution
- *      package of this software
+ * @author published under the terms and conditions of the GNU General Public License, for details see file gpl.txt in the distribution package of this software
  *
  *
  */
 class AnchorDialog extends DialogShell implements ActionListener, CaretListener, ListSelectionListener,
         DocumentListener {
-    /** dialog components */
+
+    /**
+     * dialog components
+     */
     private JList anchorList;
     private JButton addAnchor;
     private JButton delAnchor;
     private SHTMLEditorPane editor;
     private DocumentPane dp;
-    /** the document this dialog was constructed with */
+    /**
+     * the document this dialog was constructed with
+     */
     private Document doc = null;
-    /** the URL this document was loaded from (if loaded from this dialog) */
+    /**
+     * the URL this document was loaded from (if loaded from this dialog)
+     */
     private URL url = null;
-    /** table for document anchors */
+    /**
+     * table for document anchors
+     */
     private final Hashtable anchorTable = new Hashtable();
-    /** indicates whether or not changes to the document need to be saved */
+    /**
+     * indicates whether or not changes to the document need to be saved
+     */
     private boolean needsSaving = true;
-    /** the help id for this dialog */
+    /**
+     * the help id for this dialog
+     */
     private static final String helpTopicId = "item165";
 
     //private int renderMode;
     /**
-     * create an <code>AnchorDialog</code>
+     * create an
+     * <code>AnchorDialog</code>
      *
-     * @param parent  the parent dialog of this dialog
-     * @param title  the dialog title
-     * @param doc  the document to edit anchors of
+     * @param parent the parent dialog of this dialog
+     * @param title the dialog title
+     * @param doc the document to edit anchors of
      */
     public AnchorDialog(final Dialog parent, final String title, final Document doc) {
         super(parent, title, helpTopicId);
@@ -98,11 +109,12 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
     }
 
     /**
-     * create an <code>AnchorDialog</code>
+     * create an
+     * <code>AnchorDialog</code>
      *
-     * @param parent  the parent frame of this dialog
-     * @param title  the dialog title
-     * @param doc  the document to edit anchors of
+     * @param parent the parent frame of this dialog
+     * @param title the dialog title
+     * @param doc the document to edit anchors of
      */
     public AnchorDialog(final Frame parent, final String title, final Document doc) {
         super(parent, title, helpTopicId);
@@ -110,11 +122,12 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
     }
 
     /**
-     * create an <code>AnchorDialog</code>
+     * create an
+     * <code>AnchorDialog</code>
      *
-     * @param parent  the parent frame of this dialog
-     * @param title  the dialog title
-     * @param url  the document url
+     * @param parent the parent frame of this dialog
+     * @param title the dialog title
+     * @param url the document url
      */
     public AnchorDialog(final Dialog parent, final String title, final URL url) {
         super(parent, title, helpTopicId);
@@ -122,11 +135,12 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
     }
 
     /**
-     * create an <code>AnchorDialog</code>
+     * create an
+     * <code>AnchorDialog</code>
      *
-     * @param parent  the parent frame of this dialog
-     * @param title  the dialog title
-     * @param url  the document url
+     * @param parent the parent frame of this dialog
+     * @param title the dialog title
+     * @param url the document url
      */
     public AnchorDialog(final Frame parent, final String title, final URL url) {
         super(parent, title, helpTopicId);
@@ -134,14 +148,13 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
     }
 
     /**
-     * initialize this <code>AnchorDialog</code>
+     * initialize this
+     * <code>AnchorDialog</code>
      *
-     * <p>If a document is passed, anchors of this document
-     * are edited. If doc is null and a url is passed, this
-     * document is loaded (and saved).</p>
+     * <p>If a document is passed, anchors of this document are edited. If doc is null and a url is passed, this document is loaded (and saved).</p>
      *
-     * @param doc  the document to edit anchors of, or null
-     * @param url  the url to load a document from, or null
+     * @param doc the document to edit anchors of, or null
+     * @param url the url to load a document from, or null
      */
     private void initDialog(final Document doc, final URL url) {
         this.url = url;
@@ -149,7 +162,7 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
         // create anchor panel
         final JPanel anchorPanel = new JPanel(new BorderLayout());
         anchorPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED), Util
-            .getResourceString("anchorPanelLabel")));
+                .getResourceString("anchorPanelLabel")));
         //getAnchors(doc);
         anchorList = new JList(/*anchorTable.keySet().toArray()*/);
         anchorPanel.add(new JScrollPane(anchorList), BorderLayout.CENTER);
@@ -170,8 +183,7 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
             doc.addDocumentListener(this);
             dp.setDocument(doc);
             this.doc = doc;
-        }
-        else {
+        } else {
             needsSaving = true;
             dp = new DocumentPane(url, 1/*, renderMode*/);
             this.doc = dp.getDocument();
@@ -183,7 +195,7 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
         // create document panel
         final JPanel docPanel = new JPanel(new BorderLayout());
         docPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED), Util
-            .getResourceString("docPanelLabel")));
+                .getResourceString("docPanelLabel")));
         docPanel.add(editor, BorderLayout.CENTER);
         // use a help panel to properly align anchorPanel and docPanel
         helpPanel = new JPanel(new BorderLayout());
@@ -202,8 +214,9 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
     }
 
     /**
-     * overridden to addd some custom cleanup upon closing of dialog
+     * overridden to add some custom cleanup upon closing of dialog
      */
+    @Override
     public void dispose() {
         editor.removeCaretListener(this);
         doc.removeDocumentListener(this);
@@ -263,8 +276,7 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
             if (url != null) {
                 try {
                     dp.saveDocument(/*renderMode*/);
-                }
-                catch (final Exception e) {
+                } catch (final Exception e) {
                     Util.errMsg(this, e.getMessage(), e);
                 }
             }
@@ -274,7 +286,7 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
     /**
      * Gets the anchor currently selected in the list of anchors.
      *
-     * @return  the anchor name, or null if none is selected
+     * @return the anchor name, or null if none is selected
      */
     public String getAnchor() {
         String anchorName = null;
@@ -295,25 +307,22 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
     }
 
     /**
-     * ActionListener implementatin for proper handling of
-     * buttons
+     * ActionListener implementation for proper handling of buttons
      */
+    @Override
     public void actionPerformed(final ActionEvent e) {
         final Object src = e.getSource();
         if (src.equals(addAnchor)) {
             doAddAnchor();
-        }
-        else if (src.equals(delAnchor)) {
+        } else if (src.equals(delAnchor)) {
             doDelAnchor();
-        }
-        else {
+        } else {
             super.actionPerformed(e);
         }
     }
 
     /**
-     * ListSelectionListener implementation to properly react to
-     * changes in the list of anchors
+     * ListSelectionListener implementation to properly react to changes in the list of anchors
      */
     public void valueChanged(final ListSelectionEvent e) {
         final Object src = e.getSource();
@@ -333,19 +342,16 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
                     editor.select(start, end);
                     h.removeAllHighlights();
                     h.addHighlight(start, end, p);
-                }
-                catch (final BadLocationException ble) {
+                } catch (final BadLocationException ble) {
                     ble.printStackTrace();
                 }
             }
-            //}
         }
     }
 
     /**
-     * CaretListener implementation to adjust 'add anchor' button
-     * according to whether or not a selection is present in the document
-     * to possibly add an anchor to
+     * CaretListener implementation to adjust 'add anchor' button according to whether or not a selection is present in the document to possibly add an anchor
+     * to
      */
     public void caretUpdate(final CaretEvent e) {
         final Object src = e.getSource();
@@ -357,27 +363,23 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
 
     /* -------- DocumentListener implementation start ------------*/
     /**
-     * listens to inserts into the document to track whether or not the document
-     * needs to be saved.
+     * listens to inserts into the document to track whether or not the document needs to be saved.
      */
     public void insertUpdate(final DocumentEvent e) {
         updateAnchorList();
     }
 
     /**
-     * listens to removes into the document to track whether or not the document
-     * needs to be saved.
+     * listens to removes into the document to track whether or not the document needs to be saved.
      */
     public void removeUpdate(final DocumentEvent e) {
         updateAnchorList();
     }
 
     /**
-     * listens to changes on the document to track whether or not the document
-     * needs to be saved.
+     * listens to changes on the document to track whether or not the document needs to be saved.
      */
     public void changedUpdate(final DocumentEvent e) {
         updateAnchorList();
     }
-    /* -------- DocumentListener implementation end ------------*/
 }

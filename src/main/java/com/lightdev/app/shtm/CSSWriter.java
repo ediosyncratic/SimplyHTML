@@ -29,42 +29,53 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.html.StyleSheet;
 
 /**
- * A writer for writing a <code>StyleSheet</code> into a CSS file.
+ * A writer for writing a
+ * <code>StyleSheet</code> into a CSS file.
  *
  * @author Ulrich Hilger
  * @author Light Development
  * @author <a href="http://www.lightdev.com">http://www.lightdev.com</a>
  * @author <a href="mailto:info@lightdev.com">info@lightdev.com</a>
- * @author published under the terms and conditions of the
- *      GNU General Public License,
- *      for details see file gpl.txt in the distribution
- *      package of this software
- * 
+ * @author published under the terms and conditions of the GNU General Public License, for details see file gpl.txt in the distribution package of this software
+ *
  */
 class CSSWriter {
-    /** spaces for indent */
+
+    /**
+     * spaces for indent
+     */
     private char[] indentChars;
-    /** new line character sequence */
+    /**
+     * new line character sequence
+     */
     private final String newLine = System.getProperty("line.separator");
-    /** the writer to write to */
+    /**
+     * the writer to write to
+     */
     private final Writer writer;
-    /** the style sheet to write */
+    /**
+     * the style sheet to write
+     */
     private final StyleSheet styleSheet;
-    /** indent length */
+    /**
+     * indent length
+     */
     private int indentLen;
 
     /**
      * construct a new CSSWriter
      *
-     * @param writer  the writer to write to
-     * @param styleSheet  the StyleSheet to write
+     * @param writer the writer to write to
+     * @param styleSheet the StyleSheet to write
      */
     public CSSWriter(final Writer writer, final StyleSheet styleSheet) {
         this.writer = writer;
         this.styleSheet = styleSheet;
     }
 
-    /** write the style sheet to the given writer */
+    /**
+     * write the style sheet to the given writer
+     */
     public void write() throws IOException {
         final Enumeration rules = styleSheet.getStyleNames();
         while (rules.hasMoreElements()) {
@@ -72,8 +83,7 @@ class CSSWriter {
             try {
                 Thread.currentThread();
                 Thread.sleep(0, 1);
-            }
-            catch (final Exception e) {
+            } catch (final Exception e) {
             }
         }
     }
@@ -81,10 +91,9 @@ class CSSWriter {
     /**
      * write out a rule with a given name
      *
-     * <p>Takes the style with the given name from the style sheet passed in the
-     * constructor and writes it to the writer passed in the constructor.</p>.
+     * <p>Takes the style with the given name from the style sheet passed in the constructor and writes it to the writer passed in the constructor.</p>.
      *
-     * @param ruleName  the name of the rule to write out
+     * @param ruleName the name of the rule to write out
      *
      * @exception IOException if i/o fails
      */
@@ -95,11 +104,10 @@ class CSSWriter {
     /**
      * write out a rule with a given name and style
      *
-     * <p>Takes the style passed in paramter 'rule' and writes it under
-     * the given name to the writer passed in the constructor.</p>.
-
-     * @param ruleName  the name of the rule to write out
-     * @apram rule  the style to write out
+     * <p>Takes the style passed in paramter 'rule' and writes it under the given name to the writer passed in the constructor.</p>.
+     *
+     * @param ruleName the name of the rule to write out
+     * @apram rule the style to write out
      *
      * @exception IOException if i/o fails
      */
@@ -117,15 +125,12 @@ class CSSWriter {
     /**
      * write a given style
      *
-     * <p>A style is an AttributeSet which can have other
-     * AttributeSets in the value field of one of its Attributes.
-     * Therefore this is recursively called whenever an Attribute
-     * contains another AttributeSet.</p>
+     * <p>A style is an AttributeSet which can have other AttributeSets in the value field of one of its Attributes. Therefore this is recursively called
+     * whenever an Attribute contains another AttributeSet.</p>
      *
      * @param style the <code>Style</code> to write
      *
-     * @return true, if the style was closed in this run of recursion,
-     *      false if not
+     * @return true, if the style was closed in this run of recursion, false if not
      */
     private boolean writeStyle(final AttributeSet style) throws IOException {
         boolean closed = false;
@@ -140,16 +145,14 @@ class CSSWriter {
                 if (count > 0) {
                     writer.write(newLine);
                     indent(indentLen);
-                }
-                else {
+                } else {
                     count++;
                 }
                 writer.write(key.toString());
                 writer.write(":");
                 writer.write(value.toString());
                 writer.write(";");
-            }
-            else {
+            } else {
                 if (key.equals(StyleConstants.ResolveAttribute)) {
                     closed = writeStyle((Style) value);
                 }
