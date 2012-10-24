@@ -44,23 +44,26 @@ import javax.swing.border.EtchedBorder;
  * @author Light Development
  * @author <a href="http://www.lightdev.com">http://www.lightdev.com</a>
  * @author <a href="mailto:info@lightdev.com">info@lightdev.com</a>
- * @author published under the terms and conditions of the
- *      GNU General Public License,
- *      for details see file gpl.txt in the distribution
- *      package of this software
+ * @author published under the terms and conditions of the GNU General Public License, for details see file gpl.txt in the distribution package of this software
  *
- * 
+ *
  */
 class AboutBox extends JDialog implements ActionListener {
-    /** button to close the dialog */
+
+    /**
+     * button to close the dialog
+     */
     JButton closeButton = new JButton("Close");
-    /** name of the license file */
+    /**
+     * name of the license file
+     */
     private final String LICENSE = "resources/gpl.txt";
 
     /**
-     * construct an <code>AboutBox</code>.
+     * construct an
+     * <code>AboutBox</code>.
      *
-     * @param parent  the parent frame of the about box
+     * @param parent the parent frame of the about box
      */
     public AboutBox(final Frame parent) {
         super(parent);
@@ -76,7 +79,9 @@ class AboutBox extends JDialog implements ActionListener {
      * construct the dialog contents
      */
     private void constructFrame() {
-        /** initialize dialog components */
+        /**
+         * initialize dialog components
+         */
         final Container contentPane = getContentPane();
         final JPanel infoPane = new JPanel();
         final JPanel imagePane = new JPanel();
@@ -86,7 +91,7 @@ class AboutBox extends JDialog implements ActionListener {
         final JPanel emptyPane = new JPanel();
         final LicensePane licPane = new LicensePane(new Dimension(650, 200), LICENSE);
         final JLabel imageLabel = new JLabel(new ImageIcon(this.getClass().getResource(
-            Util.getResourceString("splashImage"))));
+                Util.getResourceString("splashImage"))));
         final JLabel emptyLabel = new JLabel("");
         final JLabel appTitleLabel = new JLabel(FrmMain.APP_NAME);
         final JLabel appStageLabel = new JLabel(FrmMain.VERSION);
@@ -101,8 +106,7 @@ class AboutBox extends JDialog implements ActionListener {
         imagePane.add(imageLabel);
         imagePane.setBorder(new EtchedBorder(EtchedBorder.LOWERED));
         /**
-         * textPane is the panel where all the application infos are shown.
-         * Infos are shown in a one columns grid of labels, each on one row.
+         * textPane is the panel where all the application infos are shown. Infos are shown in a one columns grid of labels, each on one row.
          */
         textPane.setLayout(new GridLayout(6, 1, 5, 5));
         textPane.add(emptyLabel);
@@ -111,15 +115,13 @@ class AboutBox extends JDialog implements ActionListener {
         textPane.add(appCopyrightLabel);
         textPane.add(appHomepageLabel);
         /**
-         * infoPane shows the application image and the application info text
-         * in a one row, two column grid.
+         * infoPane shows the application image and the application info text in a one row, two column grid.
          */
         infoPane.setLayout(new GridLayout(1, 2, 5, 5));
         infoPane.add(imagePane);
         infoPane.add(textPane);
         /**
-         * northPane is a helper pane to show application image and application
-         * info text left aligned in the upper left corner of the dialog.
+         * northPane is a helper pane to show application image and application info text left aligned in the upper left corner of the dialog.
          */
         northPane.setLayout(new BorderLayout());
         northPane.add(infoPane, BorderLayout.WEST);
@@ -128,8 +130,7 @@ class AboutBox extends JDialog implements ActionListener {
         buttonPane.setLayout(new FlowLayout());
         buttonPane.add(closeButton);
         /**
-         * now put together all parts of above application info and combine them
-         * with license information
+         * now put together all parts of above application info and combine them with license information
          */
         contentPane.setLayout(new BorderLayout());
         contentPane.add(northPane, BorderLayout.NORTH);
@@ -140,6 +141,7 @@ class AboutBox extends JDialog implements ActionListener {
     /**
      * dispose the dialog properly in case of window close events
      */
+    @Override
     protected void processWindowEvent(final WindowEvent e) {
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {
             cancel();
@@ -147,16 +149,12 @@ class AboutBox extends JDialog implements ActionListener {
         super.processWindowEvent(e);
     }
 
-    /**
-     * dispose the dialog
-     */
     private void cancel() {
         dispose();
     }
 
     /**
-     * implements the ActionListener interface to be notified of
-     * clicks onto the ok button. Closes and disposes the dialog in this case.
+     * implements the ActionListener interface to be notified of clicks onto the ok button. Closes and disposes the dialog in this case.
      */
     public void actionPerformed(final ActionEvent e) {
         if (e.getSource() == closeButton) {
